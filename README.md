@@ -53,7 +53,9 @@ src
 
 src
 └─ test/kotlin/lotto
+   ├─ ApplicationTest.kt
    ├─ LottoMachineTest.kt
+   ├─ LottoTest.kt
    ├─ LottoTicketTest.kt
    ├─ RankTest.kt
    ├─ ValidatorTest.kt
