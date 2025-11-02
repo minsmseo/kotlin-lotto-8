@@ -92,14 +92,14 @@ src
   * [x] `IllegalArgumentException` 사용
   * [x] `[ERROR]` 메시지 형식 통일
   * [x] 잘못된 입력 시 해당 단계 재입력
-* [ ] **테스트 코드 작성**
-  * [ ] `Application` 단위 테스트
+* [x] **테스트 코드 작성**
+  * [x] `Application` 단위 테스트
   * [x] `LottoMachine` 단위 테스트
   * [x] `Lotto` 단위 테스트
   * [x] `LottoTicket` 단위 테스트
-  * [ ] `Parser` 단위 테스트
+  * [x] `Parser` 단위 테스트
   * [x] `Rank` 단위 테스트
-  * [ ] `Validator` 단위 테스트
+  * [x] `Validator` 단위 테스트
   * [x] JUnit5 + AssertJ 사용
 
 > 기능 완성 시 `[ ]` → `[x]` 로 변경하며 커밋 (`feat`, `fix`, `refactor` 등 태그 사용)
