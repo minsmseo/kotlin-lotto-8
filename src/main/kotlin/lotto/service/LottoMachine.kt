@@ -2,11 +2,13 @@ package lotto.service
 
 import camp.nextstep.edu.missionutils.Randoms
 import lotto.domain.*
+import lotto.util.MathUtil
+import lotto.util.Validator
 
 class LottoMachine {
 
     fun buy(money: Int): LottoBundle {
-        validateMoney(money)
+        Validator.requireMoneyUnit(money)          // ✅ util 가드
         val count = money / 1000
         val tickets = (1..count).map { issueTicket() }
         return LottoBundle(tickets)
@@ -22,21 +24,12 @@ class LottoMachine {
     }
 
     fun yieldRate(result: Map<Rank, Int>, spent: Int): Double {
-        if (spent <= 0) return 0.0
-        val income = result.entries.sumOf { (rank, cnt) -> rank.prize * cnt }
-        // 소수점 둘째 자리 반올림(예: 62.5)
-        val raw = income.toDouble() / spent.toDouble() * 100.0
-        return kotlin.math.round(raw * 10) / 10.0
+        val income: Long = result.entries.sumOf { (rank, cnt) -> rank.prize * cnt }
+        return MathUtil.yieldPercent(income, spent)            // ✅ util 위임
     }
 
     private fun issueTicket(): LottoTicket {
         val nums = Randoms.pickUniqueNumbersInRange(1, 45, 6)
-        return LottoTicket.of(nums)
-    }
-
-    private fun validateMoney(money: Int) {
-        require(money >= 1000 && money % 1000 == 0) {
-            "[ERROR] 구입 금액은 1,000원 단위의 양수여야 합니다."
-        }
+        return LottoTicket.of(nums) // Lotto가 최종 검증/정렬
     }
 }

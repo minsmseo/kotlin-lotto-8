@@ -2,14 +2,17 @@ package lotto.view
 
 import camp.nextstep.edu.missionutils.Console
 import lotto.domain.Winning
+import lotto.util.Parser
+import lotto.util.Validator
 
 object InputView {
 
     fun readPurchaseMoney(): Int {
         println("구입금액을 입력해 주세요.")
         return readRetry {
-            Console.readLine().trim().toIntOrNull()
-                ?: throw IllegalArgumentException("[ERROR] 숫자를 입력해야 합니다.")
+            val money= Parser.parseIntStrict(Console.readLine())
+            Validator.requireMoneyUnit(money)
+            money
         }
     }
 
@@ -17,19 +20,16 @@ object InputView {
         println()
         println("당첨 번호를 입력해 주세요.")
         val main = readRetry {
-            val line = Console.readLine().trim()
-            val nums = line.split(",").map { it.trim() }
-            if (nums.size != 6) throw IllegalArgumentException("[ERROR] 당첨 번호는 6개여야 합니다.")
-            val ints = nums.map {
-                it.toIntOrNull() ?: throw IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
-            }
-            ints.toSet()
+            val nums = Parser.csvToIntList(Console.readLine())  //  "1,2,3,4,5,6" → [1..6]
+            Validator.requireDistinct6InRange(nums)
+            nums.toSet()
         }
         println()
         println("보너스 번호를 입력해 주세요.")
         val bonus = readRetry {
-            Console.readLine().trim().toIntOrNull()
-                ?: throw IllegalArgumentException("[ERROR] 숫자만 입력해야 합니다.")
+            val b = Parser.parseIntStrict(Console.readLine())
+            Validator.requireBonusNotDuplicated(main, b)
+            b
         }
         return Winning(main, bonus)
     }
