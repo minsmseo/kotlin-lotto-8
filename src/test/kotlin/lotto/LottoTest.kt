@@ -1,5 +1,6 @@
 package lotto
 
+import lotto.domain.Lotto
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -20,4 +21,14 @@ class LottoTest {
     }
 
     // TODO: 추가 기능 구현에 따른 테스트 코드 작성
+    @Test
+    fun `범위를 벗어나면 예외(0, 46 등)`() {
+        assertThrows<IllegalArgumentException> {
+            Lotto(listOf(0, 2, 3, 4, 5, 6))
+        }
+
+        assertThrows<IllegalArgumentException> {
+            Lotto(listOf(1, 2, 3, 4, 5, 46))
+        }
+    }
 }
